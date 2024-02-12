@@ -1,0 +1,39 @@
+import datetime
+import time
+import winsound  # Для воспроизведения звукового сигнала в Windows
+
+def set_alarm(alarm_time, sound_file):
+    while True:
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        if current_time == alarm_time:
+            print("Время подъема!")
+            play_sound(sound_file)
+            break
+        time.sleep(1)
+
+def play_sound(sound_file):
+    try:
+        winsound.PlaySound(sound_file, winsound.SND_FILENAME)
+    except Exception as e:
+        print(f"Не удалось воспроизвести звук: {e}")
+
+def main():
+    print("Программа будильника")
+
+    # Ввод времени будильника
+    alarm_time = input("Введите время будильника в формате HH:MM:SS: ")
+    
+    # Проверка корректности формата времени
+    try:
+        datetime.datetime.strptime(alarm_time, "%H:%M:%S")
+    except ValueError:
+        print("Некорректный формат времени. Используйте HH:MM:SS.")
+        return
+
+    sound_file = input("Введите путь к звуковому файлу (для Windows можете использовать 'alarm.wav'): ")
+
+    # Запуск будильника
+    set_alarm(alarm_time, sound_file)
+
+if __name__ == "__main__":
+    main()
